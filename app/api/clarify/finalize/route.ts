@@ -57,7 +57,13 @@ export async function POST(req: Request) {
   } catch {}
 
   // Build filters JSON (deterministic, low temp, ≤10s)
+  console.log(`[finalize] rid=${rid} calling buildEnriched with:`, {
+    originalQuery: session.original_query,
+    answersJson,
+    email: submitterEmail
+  })
   const filtersJsonStr = await buildEnriched({ originalQuery: session.original_query, answersJson, email: submitterEmail })
+  console.log(`[finalize] rid=${rid} buildEnriched returned:`, filtersJsonStr.slice(0, 200))
   let filters: any = null
   try {
     filters = JSON.parse(filtersJsonStr)
