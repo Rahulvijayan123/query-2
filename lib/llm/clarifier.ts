@@ -44,10 +44,11 @@ CRITICAL RULE #1: QUESTION FORMAT
 - NEVER ask questions that require explanations, lists, or open-ended responses
 - If a question cannot be answered with YES/NO, DO NOT ASK IT
 
-CRITICAL RULE #2: QUESTION QUANTITY
-- For BROAD queries (vague, multiple areas): Generate EXACTLY 7-10 questions
-- For SPECIFIC queries (narrow focus): Generate EXACTLY 4-5 questions  
-- For BALANCED queries: Generate EXACTLY 5-6 questions
+CRITICAL RULE #2: QUESTION QUANTITY (NON-NEGOTIABLE)
+- For BROAD queries (vague, multiple areas): Generate EXACTLY 7-10 questions (MANDATORY)
+- For SPECIFIC queries (narrow focus): Generate EXACTLY 4-5 questions (MANDATORY)
+- For BALANCED queries: Generate EXACTLY 5-6 questions (MANDATORY)
+- FAILURE TO MEET QUANTITY REQUIREMENTS WILL RESULT IN SYSTEM REJECTION
 
 CRITICAL RULE #3: PHARMACEUTICAL SPECIFICITY
 Every question MUST include:
@@ -144,7 +145,8 @@ VALIDATION:
     isOverlyBroad,
     minQuestions,
     maxQuestions: input.maxQuestions,
-    broadKeywordsFound: overlyBroadKeywords.filter(k => queryLower.includes(k))
+    broadKeywordsFound: overlyBroadKeywords.filter(k => queryLower.includes(k)),
+    calculatedMinQuestions: isOverlyBroad ? Math.max(5, Math.min(10, input.maxQuestions || 8)) : Math.max(3, Math.min(5, input.maxQuestions || 4))
   })
   
   if (isOverlyBroad) {
@@ -156,10 +158,12 @@ ${supContextBlock}
 
 STRICT INSTRUCTIONS:
 
-1. ASSESS SCOPE:
-   - BROAD queries: "cancer", "oncology", "therapeutics" → Generate ${minQuestions} questions (7-10 for broad)
-   - SPECIFIC queries: Single drug/company/indication → Generate ${minQuestions} questions (4-5 for specific)
-   - BALANCED queries: Defined therapeutic area → Generate ${minQuestions} questions (5-6 for balanced)
+1. ASSESS SCOPE AND GENERATE EXACTLY ${minQuestions} QUESTIONS:
+   - BROAD queries: "cancer", "oncology", "therapeutics" → MANDATORY ${minQuestions} questions (7-10 for broad)
+   - SPECIFIC queries: Single drug/company/indication → MANDATORY ${minQuestions} questions (4-5 for specific)
+   - BALANCED queries: Defined therapeutic area → MANDATORY ${minQuestions} questions (5-6 for balanced)
+   
+   THIS IS NON-NEGOTIABLE: You MUST generate exactly ${minQuestions} questions. No fewer, no excuses.
 
 2. GENERATE EXACTLY ${minQuestions} QUESTIONS:
    Each question MUST:
@@ -175,7 +179,7 @@ STRICT INSTRUCTIONS:
    If YES → Include the question
 
 4. EXAMPLES FOR THIS QUERY TYPE:
-   If BROAD ("oncology therapeutics"):
+   If BROAD ("oncology therapeutics") - GENERATE ALL ${minQuestions} QUESTIONS:
    ✅ "Should we focus exclusively on KRASG12C inhibitors like sotorasib (Lumakras) and adagrasib (Krazati)?"
    ✅ "Do you want to include only PD-1/PD-L1 inhibitors like pembrolizumab (Keytruda) and nivolumab (Opdivo)?"
    ✅ "Should we limit to assets with FDA Breakthrough Therapy designation?"
@@ -183,10 +187,16 @@ STRICT INSTRUCTIONS:
    ✅ "Should we focus on solid tumors and exclude hematological malignancies?"
    ✅ "Do you want to include only Phase 3 or commercially available assets?"
    ✅ "Should we limit to assets targeting HER2-positive tumors with trastuzumab deruxtecan (Enhertu)?"
+   ✅ "Should we focus on assets with specific biomarkers like PD-L1 expression ≥50% or MSI-H status?"
+   ✅ "Do you want to include only first-in-class mechanisms or also best-in-class improvements?"
+   ✅ "Should we limit to assets from top 10 pharma companies (Roche, Pfizer, Merck, etc.)?"
 
 CRITICAL: Generate EXACTLY ${minQuestions} questions. Each must pass the YES/NO test.
 
-Output ONLY valid JSON with scope_analysis and questions array.`
+ABSOLUTE REQUIREMENT: Your response must contain exactly ${minQuestions} questions in the questions array.
+If you generate fewer than ${minQuestions} questions, the system will fail.
+
+Output ONLY valid JSON with scope_analysis and questions array containing exactly ${minQuestions} questions.`
   
   // Fallback minimal heuristic when no API key
   if (!apiKey) {
@@ -220,7 +230,7 @@ const ClarifierSchema = {
       },
       questions: {
         type: "array",
-        minItems: 3, // Enforce minimum questions
+        minItems: 3, // Will validate dynamically after generation
         maxItems: 10,
         items: {
           type: "object",
@@ -308,10 +318,8 @@ const ClarifierSchema = {
 
     let { data, ccContent, parsed, questions } = await makeCall(system, 1)
     
-    // single retry if no questions OR too few questions for broad queries
-    const needsMoreQuestions = isOverlyBroad && questions && questions.length < 5
-    
-    if (!questions || questions.length === 0 || needsMoreQuestions) {
+    // single retry if no questions OR too few questions
+    if (!questions || questions.length < minQuestions) {
       const retryReason = !questions || questions.length === 0 
         ? "no questions generated" 
         : `only ${questions.length} questions for broad query`
@@ -332,6 +340,45 @@ MANDATORY REQUIREMENTS:
 FAILURE TO GENERATE ${minQuestions} QUESTIONS WILL RESULT IN SYSTEM FAILURE.`
       
       ;({ data, ccContent, parsed, questions } = await makeCall(retrySystem, 2))
+      
+      // Final fallback if still insufficient
+      if (!questions || questions.length < minQuestions) {
+        console.error(`${logPrefix} Final retry failed: got ${questions?.length || 0} questions, needed ${minQuestions}`)
+        console.log(`${logPrefix} Adding fallback questions to meet requirement`)
+        
+        // Add domain-specific fallback questions to meet minimum requirement
+        const fallbackQuestions = []
+        const currentCount = questions?.length || 0
+        const needed = minQuestions - currentCount
+        
+        const fallbackTemplates = [
+          "Should we focus on assets with FDA Breakthrough Therapy designation only?",
+          "Do you want to exclude biosimilars and focus on innovative mechanisms?", 
+          "Should we limit to Phase 3 or commercially available assets?",
+          "Do you want to focus on first-in-class mechanisms exclusively?",
+          "Should we include only assets from top 15 pharmaceutical companies?",
+          "Do you want to focus on assets with companion diagnostics?",
+          "Should we limit to assets targeting specific biomarkers?",
+          "Do you want to include combination therapies or monotherapies only?",
+          "Should we focus on assets with orphan drug designation?",
+          "Do you want to exclude generic or follow-on products?"
+        ]
+        
+        for (let i = 0; i < needed && i < fallbackTemplates.length; i++) {
+          fallbackQuestions.push({
+            key: `domain_fallback_${i + 1}`,
+            label: fallbackTemplates[i],
+            type: "single_select",
+            options: [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }],
+            required: true,
+            reason: "This helps narrow the scope to find the most relevant pharmaceutical assets",
+            balancing_intent: "clarify"
+          })
+        }
+        
+        questions = [...(questions || []), ...fallbackQuestions]
+        console.log(`${logPrefix} Added ${needed} domain-specific fallback questions, total: ${questions.length}`)
+      }
     }
 
     // Calculate completeness based on scope analysis and questions generated
