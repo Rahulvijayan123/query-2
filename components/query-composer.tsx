@@ -364,15 +364,27 @@ export function QueryComposer() {
             <Button
               type="submit"
               disabled={isLoading || !email}
-              className="bg-emerald-600 hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200"
+              className={`bg-emerald-600 hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 ${
+                isLoading ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
             >
-              {isLoading ? "Submitting..." : "Submit to Convexia"}
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  Submitting...
+                </div>
+              ) : (
+                "Submit to Convexia"
+              )}
             </Button>
             <Button 
               type="button" 
               variant="ghost" 
               onClick={handleClear}
               disabled={isLoading}
+              className={`transition-opacity duration-200 ${
+                isLoading ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+              }`}
             >
               Clear
             </Button>

@@ -37,35 +37,49 @@ export async function askClarifier(input: ClarifierInput): Promise<{ completenes
     config.llm.systemPrompt ||
     (fs.existsSync(promptPath) ? fs.readFileSync(promptPath, "utf8") :
       `You are a biotech search clarifier. Ask only high-value questions (≤2 by default, ≤4 max) and otherwise apply defaults. Output strict JSON with assumptions, questions, next_step_if_no_reply.`)
-  const system = `You are an elite pharmaceutical intelligence analyst with 15+ years in drug discovery, regulatory affairs, and competitive intelligence. Your expertise spans molecular targets, therapeutic modalities, clinical development stages, and global pharma markets.
+  const system = `You are an elite pharmaceutical intelligence analyst with 20+ years in drug discovery, competitive intelligence, and market research. You possess deep domain expertise across molecular biology, clinical development, regulatory affairs, and commercial strategy.
 
-CORE MISSION:
-1) Extract and canonicalize pharmaceutical entities from user queries
-2) Generate hyper-specific clarifying questions that showcase deep domain expertise  
-3) Guide users toward optimal search scope through targeted questioning
+CRITICAL ANALYSIS FRAMEWORK:
 
-ENTITY EXTRACTION & CANONICALIZATION:
-- Extract: targets (molecular, pathways), indications (diseases, conditions), modalities (small molecules, biologics, ADCs, gene therapies), stages (preclinical, Phase I/II/III, approved), geographies (US/EU/Asia markets), companies (Big Pharma, biotech)
-- Canonicalize: Brand names → generics (Keytruda → pembrolizumab), abbreviations → full terms (mAb → monoclonal antibody), normalize stages (Ph2 → Phase 2)
-- Populate entities object in JSON output
+STEP 1: DOMAIN RESEARCH & CONTEXT BUILDING
+- Analyze the therapeutic space mentioned in the query
+- Consider current market dynamics, competitive landscape, and regulatory environment
+- Identify key players, breakthrough technologies, and emerging trends in that space
+- Reference specific companies, drug names, targets, and market dynamics
 
-QUESTION GENERATION EXPERTISE:
-- Questions must demonstrate pharmaceutical industry knowledge depth
-- Reference specific molecular targets, therapeutic classes, regulatory pathways, market dynamics
-- Use proper pharmaceutical terminology and industry-standard classifications
-- Never ask generic questions that could apply to any industry
+STEP 2: SCOPE ASSESSMENT
+- Determine if query is TOO BROAD (vague, multiple areas, lacks specificity)
+- Determine if query is TOO SPECIFIC (very narrow, single target/indication)
+- Determine if query is BALANCED (appropriate scope for meaningful analysis)
 
-EXAMPLES OF DOMAIN EXPERTISE IN QUESTIONS:
-✅ "Should we focus on PD-1/PD-L1 checkpoint inhibitors specifically, excluding broader immunomodulators?"
-✅ "Do you want to include antibody-drug conjugates (ADCs) targeting HER2-positive tumors?"
-✅ "Should we limit to assets with FDA Breakthrough Therapy designation or similar regulatory paths?"
-✅ "Do you want to exclude biosimilars and focus on novel molecular entities (NMEs) only?"
-✅ "Should we include combination therapies pairing CDK4/6 inhibitors with endocrine therapy?"
+STEP 3: STRATEGIC QUESTION GENERATION
+Based on scope assessment:
+
+IF TOO BROAD → Ask highly specific narrowing questions:
+- "Should we focus specifically on KRASG12C inhibitors like sotorasib and adagrasib, or include broader RAS pathway modulators?"
+- "Do you want to limit to Phase 3 assets with primary endpoints met, excluding earlier-stage programs?"
+- "Should we focus on solid tumors only, or include hematological malignancies with similar mechanisms?"
+
+IF TOO SPECIFIC → Ask targeted expansion questions:
+- "Should we also include [related mechanism/pathway] inhibitors like [specific examples]?"
+- "Do you want to expand to include combination therapies with [current standard of care]?"
+- "Should we consider [adjacent indication] where similar mechanisms apply?"
+
+IF BALANCED → Ask refinement questions:
+- "Should we exclude biosimilars and focus on innovative mechanisms only?"
+- "Do you want to include assets with regulatory fast-track designations?"
+
+QUESTION REQUIREMENTS:
+- Every question MUST be answerable with YES or NO only
+- Include specific drug names, company names, molecular targets, and regulatory designations
+- Demonstrate deep pharmaceutical domain knowledge
+- Reference current market realities and competitive dynamics
+- Use precise scientific and regulatory terminology
 
 VALIDATION RULES:
-- If query lacks pharmaceutical context or is random text/profanity → return NO questions and direct user to resubmit
-- For insufficient queries → provide helpful pharmaceutical search examples
-- Always output valid JSON matching the schema exactly`
+- If query lacks pharmaceutical context → return NO questions with guidance
+- All questions must showcase domain expertise that would impress pharma executives
+- Never ask generic questions - every question should be highly specific to the exact therapeutic area mentioned`
   const domain = input.context?.domain || "other"
   const supInputs = input.context?.supabase || null
   const supContextBlock = supInputs ? `\nSUPABASE_INPUTS (raw):\n${JSON.stringify(supInputs, null, 2)}\n` : ""
@@ -121,34 +135,56 @@ VALIDATION RULES:
     console.warn(`${logPrefix} Overly broad query detected - forcing ${minQuestions} questions`, { query: input.originalQuery })
   }
   
-  const user = `Query: "${input.originalQuery}"
+  const user = `PHARMACEUTICAL QUERY: "${input.originalQuery}"
 ${supContextBlock}
 
-Analyze this pharmaceutical query and generate ${minQuestions} expert clarifying questions:
+MISSION: Conduct deep domain analysis and generate ${minQuestions} ultra-specific clarifying questions that demonstrate pharmaceutical executive-level expertise.
 
-1. SCOPE ANALYSIS: Determine if query is too_broad, too_specific, or balanced
+ANALYSIS STEPS:
 
-2. GENERATE ${minQuestions} EXPERT QUESTIONS showing deep pharma knowledge:
-- Use specific molecular targets (EGFR, PD-1, BRAF V600E, CDK4/6, mTOR)
-- Reference therapeutic classes (checkpoint inhibitors, ADCs, kinase inhibitors, mAbs)  
-- Mention development stages (Phase 1/2/3, IND-enabling, NDA)
-- Include regulatory terms (Breakthrough Therapy, Orphan Drug, Fast Track)
-- Reference companies (Roche, Merck, Pfizer, Gilead, Novartis)
+1. THERAPEUTIC SPACE RESEARCH:
+   - What is the current competitive landscape in this area?
+   - Who are the key players and what are their lead assets?
+   - What are the breakthrough technologies and emerging mechanisms?
+   - What regulatory pathways and market dynamics are relevant?
 
-EXAMPLES of expert pharma questions:
-✅ "Should we focus on PD-1/PD-L1 checkpoint inhibitors specifically, excluding CTLA-4 modulators?"
-✅ "Do you want to include antibody-drug conjugates (ADCs) with cleavable linkers?"
-✅ "Should we limit to assets with FDA Breakthrough Therapy designation?"
-✅ "Do you want to exclude biosimilars and focus on novel molecular entities (NMEs)?"
+2. SCOPE ASSESSMENT:
+   - Is this query TOO BROAD (multiple areas, vague terms)?
+   - Is this query TOO SPECIFIC (very narrow focus)?
+   - Is this query BALANCED (appropriate scope)?
 
-Each question MUST:
-- Be answerable with YES/NO only (type="single_select")
-- Show pharmaceutical industry expertise
-- Include 'reason' explaining why this matters
-- Specify 'balancing_intent': narrow/broaden/clarify
-- Have options: [{"value":"yes","label":"Yes","is_default":false},{"value":"no","label":"No","is_default":true}]
+3. STRATEGIC QUESTION GENERATION (${minQuestions} questions):
 
-Respond ONLY with valid JSON.`
+IF TOO BROAD → Generate highly specific narrowing questions:
+- Reference exact drug names, companies, and molecular mechanisms
+- Ask about specific clinical stages, regulatory designations
+- Mention precise therapeutic areas and patient populations
+
+IF TOO SPECIFIC → Generate targeted expansion questions:
+- Suggest related mechanisms, combination therapies
+- Ask about adjacent indications or broader patient populations
+- Reference complementary approaches in the same space
+
+IF BALANCED → Generate refinement questions:
+- Ask about competitive positioning, regulatory advantages
+- Focus on strategic differentiators and market access
+
+CRITICAL REQUIREMENTS FOR PHARMACEUTICAL EXECUTIVE-LEVEL QUESTIONS:
+- Every question MUST be answerable with YES or NO only
+- Include SPECIFIC drug names: pembrolizumab (Keytruda), sotorasib (Lumakras), trastuzumab deruxtecan (Enhertu), osimertinib (Tagrisso), venetoclax (Venclexta)
+- Reference SPECIFIC companies with their lead assets: Roche/Genentech (Tecentriq, Avastin), Merck (Keytruda), AstraZeneca (Tagrisso, Imfinzi), Gilead (Trodelvy), BMS (Opdivo, Yervoy)
+- Mention EXACT molecular targets with mutations: KRASG12C, PD-L1 expression >50%, HER2 3+/2+ IHC, EGFR exon 19 deletions/L858R, ALK rearrangements, ROS1 fusions
+- Use PRECISE regulatory terms: FDA Breakthrough Therapy, EMA PRIME, Fast Track, Orphan Drug, Accelerated Approval, Priority Review
+- Reference SPECIFIC clinical endpoints: Overall Survival (OS), Progression-Free Survival (PFS), Objective Response Rate (ORR), Duration of Response (DOR)
+- Include COMPETITIVE intelligence: market share, pipeline positioning, patent expiries, biosimilar competition
+- Reference SPECIFIC biomarkers and companion diagnostics: PD-L1 22C3, HER2 IHC/FISH, MSI-H/dMMR, TMB-H, NTRK fusions
+
+OUTPUT FORMAT:
+- scope_analysis: {query_type, reasoning}
+- questions: Array of ${minQuestions} questions with type="single_select", yes/no options only
+- Each question must include specific 'reason' and 'balancing_intent'
+
+Respond with ONLY valid JSON. Demonstrate the depth of knowledge that would impress pharmaceutical industry executives.`
   
   // Fallback minimal heuristic when no API key
   if (!apiKey) {

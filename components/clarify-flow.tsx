@@ -41,22 +41,32 @@ export function ClarifyFlow({ originalQuery, queryId, email, facets }: { origina
       return
     }
     
+    // Prevent running if no query provided
+    if (!originalQuery && !queryId) {
+      console.log("🛑 No query provided - skipping initialization")
+      return
+    }
+    
     const start = async () => {
       console.log("🚀 Starting question generation", { originalQuery, queryId })
       
-      const payload: any = queryId ? { query_id: queryId } : { text: originalQuery, facets }
+      const payload: any = queryId ? { query_id: queryId } : { text: originalQuery, facets, email }
       if (!payload.text && !payload.query_id) return
       
       try {
+        setState(prev => ({ ...prev, phase: "loading" }))
+        
         const res = await fetch("/api/query", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
         const data: any = await res.json()
         if (!res.ok) {
           console.error("/api/query error", data)
+          setState(prev => ({ ...prev, phase: "error", error: data.error || "Failed to generate questions" }))
           return
         }
         
-        const questionsRaw: ClarifyQuestion[] = (Array.isArray(data.questions) ? data.questions : []).map((q: any) => ({
-          id: q.id || crypto.randomUUID(),
+        // Ensure we get all questions at once and they don't change
+        const questionsRaw: ClarifyQuestion[] = (Array.isArray(data.questions) ? data.questions : []).map((q: any, index: number) => ({
+          id: q.id || `q_${index}_${Date.now()}`, // Stable IDs
           key: q.key,
           label: q.label,
           type: q.type,
@@ -77,7 +87,15 @@ export function ClarifyFlow({ originalQuery, queryId, email, facets }: { origina
         })
         
         console.log("✅ Questions generated", { count: questions.length, sessionId: data.session_id })
-        setState({ phase: "presented", sessionId: data.session_id, questions, completeness: data.completeness ?? 0 })
+        console.log("📝 Final questions:", questions.map(q => ({ id: q.id, type: q.type, label: q.label.slice(0, 50) + '...' })))
+        
+        setState({ 
+          phase: "presented", 
+          sessionId: data.session_id, 
+          questions, 
+          completeness: data.completeness ?? 0,
+          error: undefined
+        })
         setPlaceholderVisible(false)
         setHasInitialized(true) // Mark as initialized to prevent re-runs
         

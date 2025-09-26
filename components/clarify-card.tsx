@@ -101,9 +101,10 @@ export function ClarifyCard({ sessionId, questions, onSubmit, onFinalize, canFin
     <Card className="bg-card/95 backdrop-blur-sm border-border/50 rounded-2xl">
       <CardContent className="space-y-4 p-4">
         {questions.map((q, idx) => (
-          <div key={q.id} className="space-y-2" aria-live="polite">
-            <div className="flex items-center justify-between">
-              <Label htmlFor={`q_${q.id}`} className="text-sm font-medium">
+          <div key={q.id} className="space-y-2 border-b border-border/30 pb-4 last:border-b-0" aria-live="polite">
+            <div className="flex items-start justify-between gap-2">
+              <Label htmlFor={`q_${q.id}`} className="text-sm font-medium leading-relaxed flex-1">
+                <span className="text-xs text-muted-foreground mr-2">Q{idx + 1}:</span>
                 {q.label}
               </Label>
               {q.reason && (
@@ -142,18 +143,24 @@ export function ClarifyCard({ sessionId, questions, onSubmit, onFinalize, canFin
               <Input id={`q_${q.id}`} value={values[q.id] || ""} type="date" onChange={(e) => handleChange(q, e.target.value)} aria-required={q.required} />
             )}
             {q.type === "single_select" && (
-              <Select value={values[q.id] || ""} onValueChange={(v) => handleChange(q, v)}>
-                <SelectTrigger id={`q_${q.id}`}>
-                  <SelectValue placeholder={q.placeholder || "Select"} />
-                </SelectTrigger>
-                <SelectContent>
-                  {(q.options || []).map((o) => (
-                    <SelectItem key={o.value} value={o.value}>
-                      {o.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                {(q.options || []).map((option) => (
+                  <div key={option.value} className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id={`${q.id}_${option.value}`}
+                      name={q.id}
+                      value={option.value}
+                      checked={values[q.id] === option.value}
+                      onChange={(e) => handleChange(q, e.target.value)}
+                      className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                    />
+                    <Label htmlFor={`${q.id}_${option.value}`} className="text-sm cursor-pointer font-medium">
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             )}
             {q.type === "multi_select" && (
               <div className="flex flex-wrap gap-2" role="group" aria-label={q.label}>
