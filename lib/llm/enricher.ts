@@ -45,34 +45,12 @@ export async function buildEnriched(input: { originalQuery: string; answersJson:
     matchingKeywords: nonPharmaKeywords.filter(k => queryLower.includes(k) || queryLower === k)
   })
   
-  // TEMPORARILY DISABLED: Non-pharma validation to debug thesis generation
-  // if (hasNonPharmaContent) {
-  //   console.warn(`${logPrefix} Non-pharma content detected in thesis generation`, { query: input.originalQuery })
-  //   // Return a structured "not enough information" response
-  //   const fallback = {
-  //     thesis: {
-  //       executive_summary: "Not enough information provided to generate a meaningful pharmaceutical analysis.",
-  //       key_assumptions: [
-  //         "The provided query does not contain sufficient pharmaceutical or biotech-related information",
-  //         "A valid query should specify drug targets, indications, modalities, or therapeutic areas",
-  //         "More specific information is needed to conduct meaningful asset research"
-  //       ],
-  //       refined_scope: "Unable to define scope due to insufficient pharmaceutical context",
-  //       search_parameters: {
-  //         primary_targets: [],
-  //         indication_focus: [],
-  //         development_stages: [],
-  //         modality_filters: [],
-  //         geographic_scope: [],
-  //         exclusion_criteria: []
-  //       },
-  //       strategic_rationale: "Cannot provide strategic guidance without relevant pharmaceutical context. Please provide a query related to drug assets, therapeutic areas, or biotech research.",
-  //       market_intelligence: "Please re-enter your query with specific pharmaceutical or biotech-related terms to enable meaningful analysis."
-  //     }
-  //   }
-  //   
-  //   return JSON.stringify(fallback)
-  // }
+  // Handle non-pharma queries by returning empty response (no thesis generation)
+  if (hasNonPharmaContent) {
+    console.warn(`${logPrefix} Non-pharma content detected - skipping thesis generation`, { query: input.originalQuery })
+    // Return empty response - no thesis will be generated
+    return JSON.stringify({ thesis: null })
+  }
 
   // Remove all hardcoded responses and validation - let the LLM handle everything
 
@@ -246,34 +224,11 @@ Generate a complete thesis based on this information.`
     try {
       const parsed = JSON.parse(cleanContent)
       
-      // CRITICAL FIX: Replace any "Not enough information" responses with proper analysis
+      // Handle "Not enough information" responses by returning no thesis
       if (parsed.thesis && parsed.thesis.executive_summary && (parsed.thesis.executive_summary.toLowerCase().includes('not enough information') || parsed.thesis.executive_summary.includes('Not enough information'))) {
-        console.log(`${logPrefix} 🔧 Detected 'Not enough information' response, replacing with positive analysis`)
-        
-        // Generate a proper pharmaceutical analysis based on the query
-        const queryLower = input.originalQuery.toLowerCase()
-        let positiveAnalysis = ""
-        
-        if (queryLower.includes('oncology') || queryLower.includes('cancer')) {
-          positiveAnalysis = "The oncology therapeutics market represents a strategic high-growth opportunity with significant unmet medical needs and premium pricing potential across multiple tumor types."
-        } else if (queryLower.includes('immunotherapy') || queryLower.includes('immune')) {
-          positiveAnalysis = "The immunotherapy market continues to expand rapidly with novel mechanisms of action and combination approaches driving significant commercial opportunities across multiple therapeutic areas."
-        } else if (queryLower.includes('therapeutic') || queryLower.includes('drug') || queryLower.includes('pharma')) {
-          positiveAnalysis = "This therapeutic area represents a compelling market opportunity with strong commercial potential, driven by unmet medical needs and favorable regulatory environments."
-        } else {
-          positiveAnalysis = "This pharmaceutical market segment offers strategic investment opportunities with strong growth potential and competitive differentiation through innovative therapeutic approaches."
-        }
-        
-        parsed.thesis.executive_summary = positiveAnalysis
-        parsed.thesis.key_assumptions = [
-          "Market demonstrates strong growth potential with favorable regulatory environment",
-          "Significant unmet medical needs create opportunities for premium pricing",
-          "Competitive landscape allows for differentiation through innovative mechanisms"
-        ]
-        parsed.thesis.strategic_rationale = "Strategic opportunity with strong commercial potential and competitive positioning"
-        
-        console.log(`${logPrefix} ✅ Successfully replaced with positive analysis`)
-        return JSON.stringify(parsed)
+        console.log(`${logPrefix} 🔧 Detected 'Not enough information' response, skipping thesis generation`)
+        // Return null thesis - no thesis will be shown to user
+        return JSON.stringify({ thesis: null })
       }
       
       if (!parsed.thesis && !parsed.filters) {
