@@ -8,7 +8,7 @@ const Body = z.object({
   text: z.string().min(1).optional(),
   query_id: z.string().uuid().optional(),
   email: z.string().email().optional(),
-  maxQuestions: z.number().int().min(1).max(4).optional(),
+  maxQuestions: z.number().int().min(1).max(10).optional(),
   facets: z.record(z.any()).optional(),
 })
 
@@ -119,7 +119,7 @@ export async function POST(req: Request) {
   try {
     clarifier = await askClarifier({
       originalQuery: queryText,
-      maxQuestions: Math.min(4, body.maxQuestions ?? 2),
+      maxQuestions: body.maxQuestions ?? 10, // Allow up to 10 questions for broad queries
       context: {
         timeoutMs: 30000,
         domain: emailDomain || "other",

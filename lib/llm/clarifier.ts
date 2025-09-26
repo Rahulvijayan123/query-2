@@ -37,49 +37,46 @@ export async function askClarifier(input: ClarifierInput): Promise<{ completenes
     config.llm.systemPrompt ||
     (fs.existsSync(promptPath) ? fs.readFileSync(promptPath, "utf8") :
       `You are a biotech search clarifier. Ask only high-value questions (≤2 by default, ≤4 max) and otherwise apply defaults. Output strict JSON with assumptions, questions, next_step_if_no_reply.`)
-  const system = `You are an elite pharmaceutical intelligence analyst with 20+ years in drug discovery, competitive intelligence, and market research. You possess deep domain expertise across molecular biology, clinical development, regulatory affairs, and commercial strategy.
+  const system = `You are a pharmaceutical intelligence analyst with 25+ years of experience. You MUST follow these rules EXACTLY:
 
-CRITICAL ANALYSIS FRAMEWORK:
+CRITICAL RULE #1: QUESTION FORMAT
+- EVERY question MUST be answerable with ONLY "YES" or "NO"
+- NEVER ask questions that require explanations, lists, or open-ended responses
+- If a question cannot be answered with YES/NO, DO NOT ASK IT
 
-STEP 1: DOMAIN RESEARCH & CONTEXT BUILDING
-- Analyze the therapeutic space mentioned in the query
-- Consider current market dynamics, competitive landscape, and regulatory environment
-- Identify key players, breakthrough technologies, and emerging trends in that space
-- Reference specific companies, drug names, targets, and market dynamics
+CRITICAL RULE #2: QUESTION QUANTITY
+- For BROAD queries (vague, multiple areas): Generate EXACTLY 7-10 questions
+- For SPECIFIC queries (narrow focus): Generate EXACTLY 4-5 questions  
+- For BALANCED queries: Generate EXACTLY 5-6 questions
 
-STEP 2: SCOPE ASSESSMENT
-- Determine if query is TOO BROAD (vague, multiple areas, lacks specificity)
-- Determine if query is TOO SPECIFIC (very narrow, single target/indication)
-- Determine if query is BALANCED (appropriate scope for meaningful analysis)
+CRITICAL RULE #3: PHARMACEUTICAL SPECIFICITY
+Every question MUST include:
+- EXACT drug names with brand names: "pembrolizumab (Keytruda)", "osimertinib (Tagrisso)"
+- SPECIFIC companies: "Roche", "Merck KGaA", "AstraZeneca", "Bristol Myers Squibb"
+- PRECISE molecular targets: "EGFR exon 19 deletions", "KRASG12C mutations", "PD-L1 expression ≥50%"
+- EXACT regulatory designations: "FDA Breakthrough Therapy", "EMA PRIME", "Orphan Drug status"
 
-STEP 3: STRATEGIC QUESTION GENERATION
-Based on scope assessment:
+EXAMPLES OF CORRECT YES/NO QUESTIONS:
+✅ "Should we focus exclusively on KRASG12C inhibitors like sotorasib (Lumakras) and adagrasib (Krazati)?"
+✅ "Do you want to include only assets with FDA Breakthrough Therapy designation?"
+✅ "Should we limit to pembrolizumab (Keytruda) and nivolumab (Opdivo) for PD-1/PD-L1 targeting?"
+✅ "Do you want to exclude biosimilars and focus only on novel molecular entities (NMEs)?"
 
-IF TOO BROAD → Ask highly specific narrowing questions:
-- "Should we focus specifically on KRASG12C inhibitors like sotorasib and adagrasib, or include broader RAS pathway modulators?"
-- "Do you want to limit to Phase 3 assets with primary endpoints met, excluding earlier-stage programs?"
-- "Should we focus on solid tumors only, or include hematological malignancies with similar mechanisms?"
+EXAMPLES OF INCORRECT QUESTIONS (NEVER ASK THESE):
+❌ "What specific molecular targets are you interested in?" (Open-ended)
+❌ "Which companies should we focus on?" (Requires a list)
+❌ "How do you define early-stage development?" (Requires explanation)
 
-IF TOO SPECIFIC → Ask targeted expansion questions:
-- "Should we also include [related mechanism/pathway] inhibitors like [specific examples]?"
-- "Do you want to expand to include combination therapies with [current standard of care]?"
-- "Should we consider [adjacent indication] where similar mechanisms apply?"
+SCOPE ASSESSMENT RULES:
+- TOO BROAD: "cancer", "oncology", "therapeutics", "drugs" without specifics
+- TOO SPECIFIC: Single drug name, single company, very narrow indication
+- BALANCED: Specific therapeutic area with defined scope
 
-IF BALANCED → Ask refinement questions:
-- "Should we exclude biosimilars and focus on innovative mechanisms only?"
-- "Do you want to include assets with regulatory fast-track designations?"
-
-QUESTION REQUIREMENTS:
-- Every question MUST be answerable with YES or NO only
-- Include specific drug names, company names, molecular targets, and regulatory designations
-- Demonstrate deep pharmaceutical domain knowledge
-- Reference current market realities and competitive dynamics
-- Use precise scientific and regulatory terminology
-
-VALIDATION RULES:
-- If query lacks pharmaceutical context → return NO questions with guidance
-- All questions must showcase domain expertise that would impress pharma executives
-- Never ask generic questions - every question should be highly specific to the exact therapeutic area mentioned`
+VALIDATION:
+- If query is not pharmaceutical → return 0 questions
+- Every question must pass the YES/NO test
+- Every question must include specific pharmaceutical entities
+- Every question must demonstrate executive-level domain expertise`
   const domain = input.context?.domain || "other"
   const supInputs = input.context?.supabase || null
   const supContextBlock = supInputs ? `\nSUPABASE_INPUTS (raw):\n${JSON.stringify(supInputs, null, 2)}\n` : ""
@@ -98,15 +95,26 @@ VALIDATION RULES:
     'everything', 'anything', 'all drugs', 'all medications', 'random', 'test', 'hello', 'hi',
     'fuck', 'shit', 'damn', 'hell', 'ass', 'bitch', 'sex', 'porn', 'nsfw'
   ]
-  const overlyBroadKeywords = ['everything', 'anything', 'all drugs', 'all medications', 'drugs', 'medicine']
+  const overlyBroadKeywords = [
+    'everything', 'anything', 'all drugs', 'all medications', 'drugs', 'medicine',
+    'oncology', 'cancer', 'therapeutics', 'therapy', 'treatment', 'pharmaceutical',
+    'biotech', 'immunotherapy', 'targeted therapy'
+  ]
   
   const hasNonPharmaContent = nonPharmaKeywords.some(keyword => 
     queryLower.includes(keyword) || queryLower === keyword
   )
   
+  // Detect broad queries more effectively
   const isOverlyBroad = overlyBroadKeywords.some(keyword => 
-    queryLower === keyword || queryLower.includes(keyword)
-  ) && queryLower.length < 15 // Very short and broad
+    queryLower.includes(keyword)
+  ) || (
+    // Additional broad query patterns
+    (queryLower.includes('cancer') || queryLower.includes('oncology')) && 
+    !queryLower.includes('inhibitor') && 
+    !queryLower.includes('specific') &&
+    queryLower.split(' ').length <= 3
+  )
   
   // Check for overly broad queries to force more questions
   
@@ -131,60 +139,54 @@ VALIDATION RULES:
     ? Math.max(5, Math.min(10, input.maxQuestions || 8)) // Force 5-10 questions for broad queries
     : Math.max(3, Math.min(5, input.maxQuestions || 4))
   
+  console.log(`${logPrefix} Query analysis:`, {
+    query: input.originalQuery,
+    isOverlyBroad,
+    minQuestions,
+    maxQuestions: input.maxQuestions,
+    broadKeywordsFound: overlyBroadKeywords.filter(k => queryLower.includes(k))
+  })
+  
   if (isOverlyBroad) {
     console.warn(`${logPrefix} Overly broad query detected - forcing ${minQuestions} questions`, { query: input.originalQuery })
   }
   
-  const user = `PHARMACEUTICAL QUERY: "${input.originalQuery}"
+  const user = `QUERY: "${input.originalQuery}"
 ${supContextBlock}
 
-MISSION: Conduct deep domain analysis and generate ${minQuestions} ultra-specific clarifying questions that demonstrate pharmaceutical executive-level expertise.
+STRICT INSTRUCTIONS:
 
-ANALYSIS STEPS:
+1. ASSESS SCOPE:
+   - BROAD queries: "cancer", "oncology", "therapeutics" → Generate ${minQuestions} questions (7-10 for broad)
+   - SPECIFIC queries: Single drug/company/indication → Generate ${minQuestions} questions (4-5 for specific)
+   - BALANCED queries: Defined therapeutic area → Generate ${minQuestions} questions (5-6 for balanced)
 
-1. THERAPEUTIC SPACE RESEARCH:
-   - What is the current competitive landscape in this area?
-   - Who are the key players and what are their lead assets?
-   - What are the breakthrough technologies and emerging mechanisms?
-   - What regulatory pathways and market dynamics are relevant?
+2. GENERATE EXACTLY ${minQuestions} QUESTIONS:
+   Each question MUST:
+   - Be answerable with YES or NO ONLY
+   - Include specific drug names: "pembrolizumab (Keytruda)", "osimertinib (Tagrisso)"
+   - Reference specific companies: "Roche", "Merck", "AstraZeneca", "Bristol Myers Squibb"
+   - Mention exact targets: "EGFR exon 19 deletions", "KRASG12C mutations", "PD-L1 ≥50%"
+   - Use regulatory terms: "FDA Breakthrough Therapy", "EMA PRIME", "Orphan Drug"
 
-2. SCOPE ASSESSMENT:
-   - Is this query TOO BROAD (multiple areas, vague terms)?
-   - Is this query TOO SPECIFIC (very narrow focus)?
-   - Is this query BALANCED (appropriate scope)?
+3. QUESTION VALIDATION TEST:
+   Before including any question, ask: "Can this be answered with YES or NO?"
+   If NO → Do not include the question
+   If YES → Include the question
 
-3. STRATEGIC QUESTION GENERATION (${minQuestions} questions):
+4. EXAMPLES FOR THIS QUERY TYPE:
+   If BROAD ("oncology therapeutics"):
+   ✅ "Should we focus exclusively on KRASG12C inhibitors like sotorasib (Lumakras) and adagrasib (Krazati)?"
+   ✅ "Do you want to include only PD-1/PD-L1 inhibitors like pembrolizumab (Keytruda) and nivolumab (Opdivo)?"
+   ✅ "Should we limit to assets with FDA Breakthrough Therapy designation?"
+   ✅ "Do you want to exclude biosimilars and focus on novel molecular entities (NMEs) only?"
+   ✅ "Should we focus on solid tumors and exclude hematological malignancies?"
+   ✅ "Do you want to include only Phase 3 or commercially available assets?"
+   ✅ "Should we limit to assets targeting HER2-positive tumors with trastuzumab deruxtecan (Enhertu)?"
 
-IF TOO BROAD → Generate highly specific narrowing questions:
-- Reference exact drug names, companies, and molecular mechanisms
-- Ask about specific clinical stages, regulatory designations
-- Mention precise therapeutic areas and patient populations
+CRITICAL: Generate EXACTLY ${minQuestions} questions. Each must pass the YES/NO test.
 
-IF TOO SPECIFIC → Generate targeted expansion questions:
-- Suggest related mechanisms, combination therapies
-- Ask about adjacent indications or broader patient populations
-- Reference complementary approaches in the same space
-
-IF BALANCED → Generate refinement questions:
-- Ask about competitive positioning, regulatory advantages
-- Focus on strategic differentiators and market access
-
-CRITICAL REQUIREMENTS FOR PHARMACEUTICAL EXECUTIVE-LEVEL QUESTIONS:
-- Every question MUST be answerable with YES or NO only
-- Include SPECIFIC drug names: pembrolizumab (Keytruda), sotorasib (Lumakras), trastuzumab deruxtecan (Enhertu), osimertinib (Tagrisso), venetoclax (Venclexta)
-- Reference SPECIFIC companies with their lead assets: Roche/Genentech (Tecentriq, Avastin), Merck (Keytruda), AstraZeneca (Tagrisso, Imfinzi), Gilead (Trodelvy), BMS (Opdivo, Yervoy)
-- Mention EXACT molecular targets with mutations: KRASG12C, PD-L1 expression >50%, HER2 3+/2+ IHC, EGFR exon 19 deletions/L858R, ALK rearrangements, ROS1 fusions
-- Use PRECISE regulatory terms: FDA Breakthrough Therapy, EMA PRIME, Fast Track, Orphan Drug, Accelerated Approval, Priority Review
-- Reference SPECIFIC clinical endpoints: Overall Survival (OS), Progression-Free Survival (PFS), Objective Response Rate (ORR), Duration of Response (DOR)
-- Include COMPETITIVE intelligence: market share, pipeline positioning, patent expiries, biosimilar competition
-- Reference SPECIFIC biomarkers and companion diagnostics: PD-L1 22C3, HER2 IHC/FISH, MSI-H/dMMR, TMB-H, NTRK fusions
-
-OUTPUT FORMAT:
-- scope_analysis: {query_type, reasoning}
-- questions: Array of ${minQuestions} questions with type="single_select", yes/no options only
-- Each question must include specific 'reason' and 'balancing_intent'
-
-Respond with ONLY valid JSON. Demonstrate the depth of knowledge that would impress pharmaceutical industry executives.`
+Output ONLY valid JSON with scope_analysis and questions array.`
   
   // Fallback minimal heuristic when no API key
   if (!apiKey) {
@@ -218,7 +220,7 @@ const ClarifierSchema = {
       },
       questions: {
         type: "array",
-        minItems: 0,
+        minItems: 3, // Enforce minimum questions
         maxItems: 10,
         items: {
           type: "object",
@@ -316,9 +318,18 @@ const ClarifierSchema = {
       
       console.log(`${logPrefix} Retrying due to: ${retryReason}`)
       
-      const retrySystem = isOverlyBroad
-        ? `${system}\nSTRICT: This is a VERY BROAD query. You MUST generate ${Math.min(8, minQuestions)} specific questions to narrow the scope. Use real therapeutic areas, specific modalities, and concrete development stages.`
-        : `${system}\nSTRICT: Your output MUST include at least one high-leverage question that either narrows or broadens (modality, geography, stage, unit, exclusions).`
+      const retrySystem = `${system}
+
+CRITICAL RETRY INSTRUCTION: 
+The previous attempt generated only ${questions?.length || 0} questions but you MUST generate EXACTLY ${minQuestions} questions.
+
+MANDATORY REQUIREMENTS:
+- Generate EXACTLY ${minQuestions} questions (not fewer)
+- Each question MUST be answerable with YES/NO only  
+- Each question MUST include specific drug names, companies, and targets
+- Use the examples provided in the system prompt as templates
+
+FAILURE TO GENERATE ${minQuestions} QUESTIONS WILL RESULT IN SYSTEM FAILURE.`
       
       ;({ data, ccContent, parsed, questions } = await makeCall(retrySystem, 2))
     }

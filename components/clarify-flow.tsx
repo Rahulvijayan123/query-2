@@ -77,14 +77,23 @@ export function ClarifyFlow({ originalQuery, queryId, email, facets }: { origina
           reason: q.reason || undefined,
         }))
         
-        // Deduplicate by label+key to avoid repeated rendering
+        // Enhanced deduplication and validation
         const seen = new Set<string>()
         const questions = questionsRaw.filter((q) => {
-          const k = `${q.key || ''}|${q.label || ''}`
-          if (seen.has(k)) return false
-          seen.add(k)
+          // Ensure question has proper structure
+          if (!q.label || !q.type || !q.id) return false
+          
+          // Deduplicate by label to avoid repeated questions
+          const normalizedLabel = q.label.toLowerCase().trim()
+          if (seen.has(normalizedLabel)) {
+            console.warn("🔄 Duplicate question detected:", q.label)
+            return false
+          }
+          seen.add(normalizedLabel)
           return true
         })
+        
+        console.log("✅ Final questions after deduplication:", questions.length)
         
         console.log("✅ Questions generated", { count: questions.length, sessionId: data.session_id })
         console.log("📝 Final questions:", questions.map(q => ({ id: q.id, type: q.type, label: q.label.slice(0, 50) + '...' })))
@@ -105,7 +114,7 @@ export function ClarifyFlow({ originalQuery, queryId, email, facets }: { origina
     }
     
     start()
-  }, [originalQuery, queryId, facets, hasInitialized])
+  }, [originalQuery, queryId, hasInitialized]) // Removed facets to prevent re-runs
 
   async function submitAnswers(payload: { questionId: string; value: unknown }[]) {
     if (state.phase !== "presented") return
