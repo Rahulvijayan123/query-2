@@ -1,0 +1,87 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
+  try {
+    // Get the request body
+    const { record } = await req.json()
+    
+    // Initialize Resend
+    const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+    if (!RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY not found')
+    }
+
+    // Your email details
+    const toEmails = ['ayaan@convexia.bio', 'rahul@convexia.bio']
+    const fromEmail = 'onboarding@resend.dev' // Using Resend's test domain
+
+    // Prepare email content
+    const emailData = {
+      from: fromEmail,
+      to: toEmails,
+      subject: `New Query Submitted - ${record.email || 'No Email'}`,
+      html: `
+        <h2>New Query Submitted to Convexia</h2>
+        <p><strong>Email:</strong> ${record.email || 'Not provided'}</p>
+        <p><strong>Target:</strong> ${record.facets ? JSON.parse(record.facets).target || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Indication:</strong> ${record.facets ? JSON.parse(record.facets).indication || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Modality:</strong> ${record.facets ? JSON.parse(record.facets).modality || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Geography:</strong> ${record.facets ? JSON.parse(record.facets).geography || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Stage:</strong> ${record.facets ? JSON.parse(record.facets).stage || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Exclusions:</strong> ${record.facets ? JSON.parse(record.facets).exclusions || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Time Window:</strong> ${record.facets ? JSON.parse(record.facets).timeWindow || 'Not specified' : 'Not specified'}</p>
+        <p><strong>Additional Info:</strong> ${record.facets ? JSON.parse(record.facets).additionalInfo || 'Not provided' : 'Not provided'}</p>
+        <p><strong>Full Query:</strong> ${record.query_text || 'Not provided'}</p>
+        <p><strong>Submitted:</strong> ${new Date(record.created_at).toLocaleString()}</p>
+        <hr>
+        <p><em>This is an automated notification from your Convexia demo app.</em></p>
+      `
+    }
+
+    // Send email via Resend
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailData),
+    })
+
+    if (!response.ok) {
+      const error = await response.text()
+      throw new Error(`Resend API error: ${error}`)
+    }
+
+    const result = await response.json()
+    console.log('Email sent successfully:', result)
+
+    return new Response(
+      JSON.stringify({ success: true, messageId: result.id }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200 
+      }
+    )
+
+  } catch (error) {
+    console.error('Error sending email:', error)
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500 
+      }
+    )
+  }
+})

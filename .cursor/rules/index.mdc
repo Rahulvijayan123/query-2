@@ -1,0 +1,11 @@
+---
+description: Always apply in this repo
+globs:
+alwaysApply: true
+---
+# Convexia Clarifier Repo Rules
+- Use Supabase Edge Functions (Deno) to call OpenAI Responses API with reasoning.effort="high" and JSON Schema structured outputs.
+- Store model output in table `asset_queries.llm_output` and set `status='clarified_pending_user'`.
+- No secrets in code; all via env.
+- Typescript-first; small, commented modules.
+---

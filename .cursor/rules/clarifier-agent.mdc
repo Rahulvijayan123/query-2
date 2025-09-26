@@ -1,0 +1,19 @@
+---
+description: BUILD/MAINTAIN the Supabase→Edge Function→OpenAI clarifier pipeline.
+globs: supabase/functions/**, supabase/migrations/**, supabase/**/prompt.*.txt, **/*.md
+alwaysApply: false
+---
+## Tasks this agent must do when asked
+- Ensure these exist:
+  - supabase/functions/clarify/index.ts
+  - supabase/functions/clarify/deno.json
+  - supabase/functions/clarify/prompt.system.txt
+- Ensure `asset_queries` table has columns: id (uuid), company (text), drug_name (text), therapeutic_area (text), free_text (text), status (text), llm_output (jsonb), created_at, updated_at.
+- Function must support TWO inputs:
+  1) DB Webhook payload with `record` (INSERT event)
+  2) Direct call with `{ query_id: <uuid> }` (frontend post-insert)
+- Function must call OpenAI Responses API with reasoning.effort="high" and response_format JSON Schema.
+- On success: update the row’s `llm_output` and set `status='clarified_pending_user'`.
+- Provide helpful console.error on failures.
+- No frontend code changes unless explicitly asked.
+---

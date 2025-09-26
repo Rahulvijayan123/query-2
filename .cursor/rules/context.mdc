@@ -1,0 +1,15 @@
+---
+description: Global context for Convexia Clarifier (always applied)
+globs:
+alwaysApply: true
+---
+# Convexia Clarifier – Global Context (Authoritative)
+- This repo implements the “Clarifier” for Convexia: when a user submits a form describing interest in a drug/asset, we transform it into:
+  1) Prioritized clarifying questions for the user
+  2) A refined, more specific query (intent + scope + assumptions)
+  3) A decision-useful one-pager (Markdown) for approval/edit
+- Source of truth: `docs/PROJECT_CONTEXT.md`. When adding/changing behavior, align to that document’s UX contract, acceptance tests, and non-goals.
+- DO NOT add browsing or live scraping in Edge Functions. The clarifier writes hypotheses, unknowns, and a research plan only.
+- Respect security: no secrets client-side, no PII leakage in logs, and idempotent function behavior.
+- Never add marketing taglines or competitor references in model outputs.
+---

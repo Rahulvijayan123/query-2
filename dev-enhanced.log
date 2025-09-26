@@ -1,0 +1,393 @@
+
+> my-v0-project@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Port 3002 is in use, trying 3003 instead.
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3003
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1174ms
+ ✓ Compiled  ✓ Compiled in 43ms (72 modules)
+API-QUERY] New query request started { requestId: 'b0zjgvpb2w', timestamp: '2025-09-26T20:01:25.733Z' }
+[query] rid=b0zjgvpb2w start textLen=38 hasQueryId=false hasFacets=false
+[query] rid=b0zjgvpb2w created query id=a7926b42-85a6-47e2-b882-60d0dba1caa0
+[query] rid=b0zjgvpb2w created session id=aa745f6f-2705-4c42-8989-107f974d0e9d
+ ⨯ TypeError: Cannot read properties of undefined (reading 'maxQuestions')
+    at POST (webpack-internal:///(rsc)/./app/api/query/route.ts:145:45)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55831
+    at async eO.execute (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46527)
+    at async eO.handle (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57165)
+    at async doRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1352:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1574:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1482:28)
+    at async DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1908:24)
+    at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/query 500 in 2500ms
+ ✓ Compiled /middleware in 80ms (72 modules)
+ ○ Compiling /app ...
+ ✓ Compiled /app in 1620ms (1047 modules)
+ GET /app 200 in 1879ms
+ ✓ Compiled in 390ms (1047 modules)
+[API-QUERY] New query request started { requestId: 'd9dds9tattk', timestamp: '2025-09-26T20:01:39.320Z' }
+[query] rid=d9dds9tattk start textLen=38 hasQueryId=false hasFacets=false
+[query] rid=d9dds9tattk created query id=cb5c18d5-3bef-4507-8032-bbc4446c0769
+[query] rid=d9dds9tattk created session id=65da4368-814a-4409-a361-b319486271c0
+ ⨯ TypeError: Cannot read properties of undefined (reading 'maxQuestions')
+    at POST (webpack-internal:///(rsc)/./app/api/query/route.ts:145:45)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55831
+    at async eO.execute (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46527)
+    at async eO.handle (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57165)
+    at async doRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1352:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1574:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1482:28)
+    at async DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1908:24)
+    at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /api/query 500 in 1824ms
+ ✓ Compiled in 266ms (1047 modules)
+[API-QUERY] New query request started { requestId: 'dn5gn8l7xtv', timestamp: '2025-09-26T20:01:48.690Z' }
+[query] rid=dn5gn8l7xtv start textLen=38 hasQueryId=false hasFacets=false
+[query] rid=dn5gn8l7xtv created query id=715a347b-0d08-42a5-afdd-01ae03e9c3e7
+[query] rid=dn5gn8l7xtv created session id=672c5503-5eb1-4005-8c12-3e76a39b7059
+[API-QUERY] Starting clarification process {
+  requestId: 'dn5gn8l7xtv',
+  query: 'NaV1.8 inhibitors for neuropathic pain',
+  maxQuestions: 2,
+  domain: 'example.com'
+}
+[CLARIFIER] Starting clarification process {
+  query: 'NaV1.8 inhibitors for neuropathic pain',
+  maxQuestions: 2,
+  domain: 'example.com',
+  timestamp: '2025-09-26T20:01:50.384Z'
+}
+[CLARIFIER] Model configuration { provider: 'openai', model: 'gpt-4o', hasApiKey: true }
+[API-QUERY] Clarification completed {
+  requestId: 'dn5gn8l7xtv',
+  questionCount: 2,
+  completeness: 0,
+  hasDebugInfo: true
+}
+[API-QUERY] Questions generated successfully {
+  requestId: 'dn5gn8l7xtv',
+  questionCount: 2,
+  firstQuestionPreview: 'Should results include global studies for NaV1.8 i...'
+}
+[query] rid=dn5gn8l7xtv done totalMs=10081 qCount=2
+ POST /api/query 200 in 10103ms
+ ✓ Compiled /api/clarify/answer in 105ms (627 modules)
+ POST /api/clarify/answer 200 in 1211ms
+ ✓ Compiled /api/clarify/finalize in 68ms (630 modules)
+[THESIS-GENERATOR] Starting thesis generation {
+  query: 'NaV1.8 inhibitors for neuropathic pain',
+  answerCount: 2,
+  email: 'test@example.com',
+  timestamp: '2025-09-26T20:02:10.635Z'
+}
+[THESIS-GENERATOR] Model configuration {
+  model: 'gpt-4o',
+  hasApiKey: true,
+  baseUrl: 'https://api.openai.com/v1'
+}
+[THESIS-GENERATOR] Making API call { model: 'gpt-4o', systemPromptLength: 475, userPromptLength: 219 }
+[THESIS-GENERATOR] API call successful { model: 'gpt-4o', responseLength: 2783, duration: 21855 }
+[THESIS-GENERATOR] Response is not valid JSON, but proceeding {
+  error: SyntaxError: Unexpected token '`', "```json
+  {
+  "... is not valid JSON
+      at JSON.parse (<anonymous>)
+      at buildEnriched (webpack-internal:///(rsc)/./lib/llm/enricher.ts:100:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async POST (webpack-internal:///(rsc)/./app/api/clarify/finalize/route.ts:62:28)
+      at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:55831
+      at async eO.execute (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46527)
+      at async eO.handle (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:57165)
+      at async doRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1352:42)
+      at async cacheEntry.responseCache.get.routeKind (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1574:28)
+      at async DevServer.renderToResponseWithComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1482:28)
+      at async DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1908:24)
+      at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+      at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+      at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+      at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+      at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+      at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+      at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+      at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+      at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+      at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+      at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13),
+  contentPreview: '```json\n' +
+    '{\n' +
+    '  "thesis": {\n' +
+    '    "summary": "The refined query focuses on the development and market analysis of NaV1.8 inhibitors specifically targeted for neuropathic pain treatment, with a geographical '
+}
+[finalize] rid=x4u4sk4ufkr parse-filters-error: Unexpected token '`', "```json
+{
+"... is not valid JSON
+ POST /api/clarify/finalize 500 in 22771ms
+ ✓ Compiled in 242ms (1053 modules)
+ ⨯ TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
+    at rP (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:3772)
+    at J.ctx (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:6088)
+    at rU (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:6966)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:5234
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NextTracerImpl.trace (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/trace/tracer.js:122:28)
+    at rL (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:5165)
+    at rW (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:12701)
+    at r0 (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:16195)
+    at r3 (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:23704)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:42:726
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:36:17827)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:42:616
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:36:16929)
+    at r8 (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:42:543)
+    at nh.render (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:42:4682)
+    at doRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1413:44)
+    at cacheEntry.responseCache.get.routeKind (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1574:34)
+    at ResponseCache.get (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/response-cache/index.js:49:26)
+    at DevServer.renderToResponseWithComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1482:53)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1003:121
+    at NextTracerImpl.trace (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/trace/tracer.js:105:20)
+    at DevServer.renderToResponseWithComponents (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1003:41)
+    at DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1908:35)
+    at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13) {
+  page: '/app'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 697ms (1265 modules)
+ GET /app 200 in 73ms
+ ✓ Compiled in 271ms (1272 modules)
+[THESIS-GENERATOR] Starting thesis generation {
+  query: 'NaV1.8 inhibitors for neuropathic pain',
+  answerCount: 2,
+  email: 'test@example.com',
+  timestamp: '2025-09-26T20:02:58.918Z'
+}
+[THESIS-GENERATOR] Model configuration {
+  model: 'gpt-4o',
+  hasApiKey: true,
+  baseUrl: 'https://api.openai.com/v1'
+}
+[THESIS-GENERATOR] Making API call { model: 'gpt-4o', systemPromptLength: 519, userPromptLength: 219 }
+[THESIS-GENERATOR] API call successful { model: 'gpt-4o', responseLength: 2736, duration: 15815 }
+[THESIS-GENERATOR] Thesis generation successful { hasThesis: true, hasFilters: false, totalDuration: 15815 }
+ POST /api/clarify/finalize 200 in 17293ms
+ ✓ Compiled in 262ms (1259 modules)
+ ⨯ /Users/rahulvijayan/Query/convexia-query/.next/server/app/app/page.js:146
+/***/ "(ssr)/./node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2FUsers%2Frahulvijayan%2FQuery%2Fconvexia-query%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2FU
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+SyntaxError: Invalid or unexpected token
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at requirePage (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/require.js:109:84)
+    at /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/load-components.js:98:84
+    at async loadComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/load-components.js:98:26)
+    at async DevServer.findPageComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:709:36)
+    at async DevServer.findPageComponents (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:577:20)
+    at async DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1894:24)
+    at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13) {
+  page: '/app'
+}
+ GET /app 200 in 65ms
+ GET /app 200 in 37ms
+[v0] Email notification error: Error: RESEND_API_KEY not found
+    at getResendApiKey (webpack-internal:///(action-browser)/./lib/email.ts:9:15)
+    at sendQueryNotificationEmail (webpack-internal:///(action-browser)/./lib/email.ts:33:28)
+    at saveQuery (webpack-internal:///(action-browser)/./lib/actions/queries.ts:47:89)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:418
+    at async rk (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:38:8148)
+    at async r3 (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:41:1256)
+    at async doRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1413:30)
+    at async cacheEntry.responseCache.get.routeKind (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1574:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1482:28)
+    at async DevServer.renderPageComponent (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1908:24)
+    at async DevServer.renderToResponseImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/rahulvijayan/Query/convexia-query/node_modules/.pnpm/next@14.2.16_@playwright+test@1.55.1_react-dom@18.0.0_react@18.0.0__react@18.0.0/node_modules/next/dist/server/lib/start-server.js:141:13)
+ POST /app 200 in 385ms
+ ✓ Compiled /api/query in 160ms (669 modules)
+[API-QUERY] New query request started { requestId: 'kai06dbqav', timestamp: '2025-09-26T20:03:59.232Z' }
+[API-QUERY] New query request started { requestId: 'pb13035zkhm', timestamp: '2025-09-26T20:03:59.232Z' }
+[query] rid=kai06dbqav start textLen=92 hasQueryId=false hasFacets=true
+[query] rid=pb13035zkhm start textLen=92 hasQueryId=false hasFacets=true
+[query] rid=kai06dbqav created query id=a921dbe0-f4ba-4a60-80a3-3a508598d37c
+[query] rid=pb13035zkhm created query id=092818f7-b640-4891-87ed-cac065313d7b
+[query] rid=kai06dbqav created session id=d105d2c5-55aa-4b38-9b9f-593714aece9b
+[query] rid=pb13035zkhm created session id=94608962-699b-4654-9991-bccf385ff3a2
+[API-QUERY] Starting clarification process {
+  requestId: 'kai06dbqav',
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: null
+}
+[CLARIFIER] Starting clarification process {
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: 'other',
+  timestamp: '2025-09-26T20:04:00.733Z'
+}
+[CLARIFIER] Model configuration { provider: 'openai', model: 'gpt-4o', hasApiKey: true }
+[API-QUERY] Starting clarification process {
+  requestId: 'pb13035zkhm',
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: null
+}
+[CLARIFIER] Starting clarification process {
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: 'other',
+  timestamp: '2025-09-26T20:04:00.772Z'
+}
+[CLARIFIER] Model configuration { provider: 'openai', model: 'gpt-4o', hasApiKey: true }
+[API-QUERY] Clarification completed {
+  requestId: 'kai06dbqav',
+  questionCount: 2,
+  completeness: 0,
+  hasDebugInfo: true
+}
+[API-QUERY] Questions generated successfully {
+  requestId: 'kai06dbqav',
+  questionCount: 2,
+  firstQuestionPreview: 'Should we include any rare disease subtypes beyond...'
+}
+[query] rid=kai06dbqav done totalMs=6011 qCount=2
+ POST /api/query 200 in 6194ms
+[API-QUERY] Clarification completed {
+  requestId: 'pb13035zkhm',
+  questionCount: 2,
+  completeness: 0,
+  hasDebugInfo: true
+}
+[API-QUERY] Questions generated successfully {
+  requestId: 'pb13035zkhm',
+  questionCount: 2,
+  firstQuestionPreview: 'Should we include biomarker-enriched studies for A...'
+}
+[query] rid=pb13035zkhm done totalMs=7016 qCount=2
+ POST /api/query 200 in 7205ms
+[API-QUERY] New query request started { requestId: 'sj9wrb5n1', timestamp: '2025-09-26T20:04:07.072Z' }
+[query] rid=sj9wrb5n1 start textLen=92 hasQueryId=false hasFacets=true
+[query] rid=sj9wrb5n1 created query id=829cddb0-9815-446a-9fbf-4a6eada2f410
+[query] rid=sj9wrb5n1 created session id=5fc7fb3c-5438-4ad3-9548-223c7f9a4d89
+[API-QUERY] Starting clarification process {
+  requestId: 'sj9wrb5n1',
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: null
+}
+[CLARIFIER] Starting clarification process {
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  maxQuestions: 2,
+  domain: 'other',
+  timestamp: '2025-09-26T20:04:07.531Z'
+}
+[CLARIFIER] Model configuration { provider: 'openai', model: 'gpt-4o', hasApiKey: true }
+ ✓ Compiled /api/clarify/answer in 82ms (668 modules)
+ POST /api/clarify/answer 200 in 861ms
+[API-QUERY] Clarification completed {
+  requestId: 'sj9wrb5n1',
+  questionCount: 2,
+  completeness: 0,
+  hasDebugInfo: true
+}
+[API-QUERY] Questions generated successfully {
+  requestId: 'sj9wrb5n1',
+  questionCount: 2,
+  firstQuestionPreview: 'Should we include combination therapies involving ...'
+}
+[query] rid=sj9wrb5n1 done totalMs=5471 qCount=2
+ POST /api/query 200 in 5481ms
+ POST /api/clarify/answer 200 in 1144ms
+ POST /api/clarify/answer 200 in 869ms
+ ✓ Compiled /api/clarify/finalize in 79ms (671 modules)
+[THESIS-GENERATOR] Starting thesis generation {
+  query: 'Indication: Rare Disease; Modality: AAV; Geography: US; Stage: Phase 1; Time window: last 7y',
+  answerCount: 2,
+  email: undefined,
+  timestamp: '2025-09-26T20:04:20.753Z'
+}
+[THESIS-GENERATOR] Model configuration {
+  model: 'gpt-4o',
+  hasApiKey: true,
+  baseUrl: 'https://api.openai.com/v1'
+}
+[THESIS-GENERATOR] Making API call { model: 'gpt-4o', systemPromptLength: 519, userPromptLength: 289 }
+[THESIS-GENERATOR] API call successful { model: 'gpt-4o', responseLength: 3351, duration: 14721 }
+[THESIS-GENERATOR] Thesis generation successful { hasThesis: true, hasFilters: false, totalDuration: 14724 }
+ POST /api/clarify/finalize 200 in 15916ms
+ ○ Compiling /api/query ...
