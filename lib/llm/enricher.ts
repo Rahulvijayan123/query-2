@@ -117,7 +117,7 @@ For ANY query, generate a complete strategic thesis with:
 - Strategic rationale with competitive insights
 - Market intelligence with growth projections
 
-Even for broad terms like "cancer" or "oncology" - provide comprehensive market analysis with specific examples, companies, and opportunities.`
+Even for broad terms like "cancer" or "oncology" - provide comprehensive market analysis with specific examples, companies, and opportunities.
 
 Output structure (JSON only):
 {
